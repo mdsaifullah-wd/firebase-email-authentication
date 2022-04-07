@@ -12,9 +12,18 @@ const LogInForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [validated, setValidated] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+      return;
+    }
+
+    setValidated(true);
+    setError('');
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -34,7 +43,7 @@ const LogInForm = () => {
 
   return (
     <div className='w-50 mx-auto mt-5 border border-1 border-info p-5 rounded-3'>
-      <Form onSubmit={handleLogin}>
+      <Form noValidate validated={validated} onSubmit={handleLogin}>
         <h2>Please Login</h2>
         <Form.Group className='mb-3' controlId='formBasicEmail'>
           <Form.Label>Email address</Form.Label>
@@ -42,6 +51,7 @@ const LogInForm = () => {
             onBlur={handleEmailBlur}
             type='email'
             placeholder='Enter email'
+            required
           />
         </Form.Group>
         <Form.Group className='mb-3' controlId='formBasicPassword'>
@@ -50,6 +60,7 @@ const LogInForm = () => {
             onBlur={handlePasswordBlur}
             type='password'
             placeholder='Password'
+            required
           />
         </Form.Group>
         <Form.Text className='text-danger'>{error}</Form.Text>

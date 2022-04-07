@@ -20,8 +20,10 @@ const RegistrationForm = () => {
   const handleRegistration = (e) => {
     e.preventDefault();
     const form = e.currentTarget;
+    setError('');
     if (form.checkValidity() === false) {
       e.stopPropagation();
+      return;
     }
     if (
       !/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(
@@ -31,7 +33,6 @@ const RegistrationForm = () => {
       setError('Password is not strong enough!');
       return;
     }
-    setError('');
 
     setValidated(true);
     console.log(email, name, password, error);

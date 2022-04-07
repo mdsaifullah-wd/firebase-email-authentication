@@ -3,7 +3,11 @@ import Button from 'react-bootstrap/Button';
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 import app from '../../firebase.init.';
 
 const auth = getAuth(app);
@@ -40,6 +44,15 @@ const LogInForm = () => {
   const handlePasswordBlur = (e) => {
     setPassword(e.target.value);
   };
+  const handlePasswordReset = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        console.log('password reset mail sent');
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  };
 
   return (
     <div className='w-50 mx-auto mt-5 border border-1 border-info p-5 rounded-3'>
@@ -64,6 +77,13 @@ const LogInForm = () => {
           />
         </Form.Group>
         <Form.Text className='text-danger'>{error}</Form.Text>
+        <div className='mb-2'>
+          <button
+            onClick={handlePasswordReset}
+            className='border-0 bg-white text-primary text-decoration-underline p-0'>
+            Forget Password?
+          </button>
+        </div>
         <div className='mb-3'>
           <Link to={'/register'}>Don't have an account?</Link>
         </div>

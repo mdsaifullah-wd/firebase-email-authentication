@@ -17,9 +17,9 @@ const LogInForm = () => {
           <Form.Label>Password</Form.Label>
           <Form.Control type='password' placeholder='Password' />
         </Form.Group>
-        <Link className='d-block mb-3' to={'/register'}>
-          Don't have an account?
-        </Link>
+        <div className='mb-3'>
+          <Link to={'/register'}>Don't have an account?</Link>
+        </div>
         <Button variant='primary' type='submit'>
           Login
         </Button>

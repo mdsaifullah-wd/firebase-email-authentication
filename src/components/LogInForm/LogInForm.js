@@ -77,13 +77,11 @@ const LogInForm = () => {
           />
         </Form.Group>
         <Form.Text className='text-danger'>{error}</Form.Text>
-        <div className='mb-2'>
-          <button
-            onClick={handlePasswordReset}
-            className='border-0 bg-white text-primary text-decoration-underline p-0'>
-            Forget Password?
-          </button>
-        </div>
+        <button
+          onClick={handlePasswordReset}
+          className='border-0 bg-white text-primary text-decoration-underline p-0'>
+          Forget Password?
+        </button>
         <div className='mb-3'>
           <Link to={'/register'}>Don't have an account?</Link>
         </div>

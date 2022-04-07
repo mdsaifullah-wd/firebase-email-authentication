@@ -4,7 +4,12 @@ import Button from 'react-bootstrap/Button';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import app from '../../firebase.init.';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from 'firebase/auth';
 
 const auth = getAuth(app);
 
@@ -38,8 +43,18 @@ const RegistrationForm = () => {
     console.log(email, name, password, error);
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+        updateProfile(auth.currentUser, {
+          displayName: name,
+        })
+          .then(() => {
+            console.log('sent data with name');
+          })
+          .catch((error) => {
+            setError(error);
+          });
+        sendEmailVerification(auth.currentUser).then(() => {
+          console.log('email verification sent');
+        });
       })
       .catch((error) => {
         setError(error.message);
